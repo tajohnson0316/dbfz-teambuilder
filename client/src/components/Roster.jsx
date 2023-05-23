@@ -2,41 +2,33 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { RosterIcons } from "../assets/iconsIndex";
 import { RosterPortraits } from "../assets/portraitsIndex";
+import Team from "./Team";
 
 const Roster = () => {
-  const iconsAndPortraits = RosterIcons.map((icon, idx) => [
-    icon,
-    RosterPortraits[idx],
-  ]);
-
   const [portraits, setPortraits] = useState([]);
+
+  const teamBlueprint = {
+    point: "portrait",
+    mid: "portrait",
+    anchor: "portrait",
+  };
 
   /**
    * Icon click event: Adds a portrait to the portraits array
    * @param {Number} iconIndex
    */
-  const selectFromIcon = (iconIndex) => {
-    setPortraits([...portraits, iconsAndPortraits[iconIndex][1]]);
-  };
-
-  /**
-   * Portrait click event: Removes a portrait from the portraits array
-   * @param {Number} portraitIndex
-   */
-  const removeSelection = (portraitIndex) => {
-    setPortraits(
-      portraits.filter((portrait, idx) => portrait !== portraits[portraitIndex])
-    );
+  const addToTeam = (iconIndex) => {
+    setPortraits([...portraits, RosterPortraits[iconIndex]]);
   };
 
   return (
     <fieldset>
       <div className="container d-flex justify-content-center flex-wrap gap-2">
-        {iconsAndPortraits.map((iconAndPortrait, idx) => {
+        {RosterIcons.map((icon, idx) => {
           return (
-            <Link key={idx} onClick={(e) => selectFromIcon(idx)}>
+            <Link key={idx} onClick={(_e) => addToTeam(idx)}>
               <img
-                src={iconAndPortrait[0]}
+                src={icon}
                 alt="character_icon"
                 className="rounded border shadow"
                 style={{ maxWidth: "85px", maxHeight: "55px" }}
@@ -46,20 +38,7 @@ const Roster = () => {
         })}
       </div>
       <hr />
-      <div className="d-flex justify-content-around align-items-center">
-        {portraits.map((portrait, idx) => {
-          return (
-            <Link key={idx} onClick={(e) => removeSelection(idx)}>
-              <img
-                src={portrait}
-                alt="character_icon"
-                className="rounded border shadow"
-                style={{ maxWidth: "300px", maxHeight: "500px" }}
-              />
-            </Link>
-          );
-        })}
-      </div>
+      <Team portraits={portraits} setPortraits={setPortraits} />
     </fieldset>
   );
 };
