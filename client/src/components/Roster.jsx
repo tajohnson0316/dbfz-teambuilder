@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { RosterIcons } from "../assets/iconsIndex";
 import { RosterPortraits } from "../assets/portraitsIndex";
 import Team from "./Team";
@@ -40,18 +39,23 @@ const Roster = () => {
   };
 
   return (
-    <fieldset>
+    <fieldset className="p-3">
       <div className="container d-flex justify-content-center flex-wrap gap-2">
         {RosterIcons.map((icon, idx) => {
           return (
-            <Link key={idx} onClick={(e) => addToTeam(idx)}>
+            <button
+              key={idx}
+              type="button"
+              className="btn p-0"
+              onClick={(e) => addToTeam(idx)}
+            >
               <img
                 src={icon}
                 alt="character_icon"
                 className="rounded border shadow"
                 style={{ maxWidth: "85px", maxHeight: "55px" }}
               />
-            </Link>
+            </button>
           );
         })}
       </div>

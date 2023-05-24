@@ -5,7 +5,7 @@ import Main from "./views/Main";
 
 function App() {
   return (
-    <div className="p-3">
+    <div className="p-3 bs-dark">
       <Routes>
         <Route path="/" element={<Main />} />
       </Routes>
