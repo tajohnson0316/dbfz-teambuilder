@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RosterIcons } from "../assets/iconsIndex";
 import { RosterPortraits } from "../assets/portraitsIndex";
 import Team from "./Team";
@@ -8,13 +8,11 @@ const Roster = () => {
   const [mid, setMid] = useState(null);
   const [anchor, setAnchor] = useState(null);
 
-  // const [team, setTeam] = useState({ point, mid, anchor });
-
   /**
-   * Icon click event: Adds a portrait to the portraits array
+   * Icon click event: Adds a character to an empty slot
    * @param {Number} iconIndex
    */
-  const addToTeam = (iconIndex) => {
+  const addToTeam = (e, iconIndex) => {
     if (point === null) {
       setPoint(RosterPortraits[iconIndex]);
     } else if (mid === null) {
@@ -22,10 +20,12 @@ const Roster = () => {
     } else {
       setAnchor(RosterPortraits[iconIndex]);
     }
+    e.target.style.filter = "grayscale(100%)";
+    e.target.disabled = true;
   };
 
   /**
-   * Portrait click event: Removes a portrait from the portraits array
+   * Portrait click event: Removes a character from a slot
    * @param {String} portrait
    */
   const removeFromTeam = (portrait) => {
@@ -43,19 +43,16 @@ const Roster = () => {
       <div className="container d-flex justify-content-center flex-wrap gap-2">
         {RosterIcons.map((icon, idx) => {
           return (
-            <button
+            <input
               key={idx}
-              type="button"
-              className="btn p-0"
-              onClick={(e) => addToTeam(idx)}
-            >
-              <img
-                src={icon}
-                alt="character_icon"
-                className="rounded border shadow"
-                style={{ maxWidth: "85px", maxHeight: "55px" }}
-              />
-            </button>
+              type="image"
+              src={icon}
+              className="rounded border shadow"
+              style={{ maxWidth: "85px", maxHeight: "55px" }}
+              onClick={(e) => {
+                addToTeam(e, idx);
+              }}
+            ></input>
           );
         })}
       </div>

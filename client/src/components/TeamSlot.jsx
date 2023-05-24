@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Collapse } from "react-bootstrap";
-import { CaretDownFill } from "react-bootstrap-icons";
+import { CaretDownFill, CaretUpFill } from "react-bootstrap-icons";
 
 const TeamSlot = (props) => {
   const { portrait, removeFromTeam } = props;
@@ -29,8 +29,17 @@ const TeamSlot = (props) => {
               type="button"
               onClick={() => setCollapsed(!collapsed)}
             >
-              <p>Click for more info</p>
-              <CaretDownFill />
+              {collapsed ? (
+                <>
+                  <p>Click to close</p>
+                  <CaretUpFill className="fs-3" />
+                </>
+              ) : (
+                <>
+                  <p>Click for more info</p>
+                  <CaretDownFill className="fs-3" />
+                </>
+              )}
             </button>
           </div>
           <Collapse in={collapsed} style={{ width: "300px" }}>
@@ -43,12 +52,27 @@ const TeamSlot = (props) => {
           </Collapse>
         </>
       ) : (
-        <div
-          className="rounded border shadow p-2"
-          style={{ width: "300px", height: "400px" }}
-        >
-          <p>Add Char</p>
-        </div>
+        <>
+          <div
+            className="rounded border shadow p-2"
+            style={{ width: "300px", height: "400px" }}
+          >
+            <p>Add Char</p>
+          </div>
+          <div className="d-grid">
+            <button
+              className="btn btn-secondary"
+              type="button"
+              onClick={() => setCollapsed(!collapsed)}
+            >
+              <p>Click for more info</p>
+              <CaretDownFill />
+            </button>
+          </div>
+          <Collapse in={collapsed} style={{ width: "300px" }}>
+            <div className="card card-body">- Character Required -</div>
+          </Collapse>
+        </>
       )}
     </fieldset>
   );
