@@ -9,14 +9,29 @@ const TeamStatistics = (props) => {
   const [damage, setDamage] = useState(0);
 
   useEffect(() => {
-    setNeutral(4);
-    setMix(5);
-    setDamage(7);
+    if (team.point && team.mid && team.anchor) {
+      let neutralSum = 0,
+        mixSum = 0,
+        damageSum = 0;
+      for (let slot in team) {
+        neutralSum += team[slot].combatStats.neutral;
+        mixSum += team[slot].combatStats.mix;
+        damageSum += team[slot].combatStats.damage;
+        console.log(team[slot]);
+      }
+      setNeutral(Math.floor(neutralSum / 3));
+      setMix(Math.floor(mixSum / 3));
+      setDamage(Math.floor(damageSum / 3));
+    } else {
+      setNeutral(0);
+      setMix(0);
+      setDamage(0);
+    }
   }, [team]);
 
   return (
     <>
-      <h2 className="text-center mb-5">Team Statistics</h2>
+      <h2 className="text-center mb-4">Team Statistics</h2>
       <div className="d-flex justify-content-around p-3">
         <div className="text-center">
           <h3 className="mb-3">

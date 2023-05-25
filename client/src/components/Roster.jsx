@@ -1,78 +1,90 @@
-import React, { useState, useEffect } from "react";
-import { RosterIcons } from "../assets/iconsIndex";
-import { RosterPortraits } from "../assets/portraitsIndex";
+import "../assets/iconsIndex";
+import "../assets/portraitsIndex";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import Team from "./Team";
 
 const Roster = () => {
+  const refs = useRef({});
+
+  const [characters, setCharacters] = useState([]);
+
   const [point, setPoint] = useState(null);
   const [mid, setMid] = useState(null);
   const [anchor, setAnchor] = useState(null);
 
-  useEffect(() => {
-    RosterIcons.map((iconUrl) => console.log("ICON ==>", iconUrl));
-  });
+  const [team, setTeam] = useState({ point, mid, anchor });
 
   useEffect(() => {
-    RosterPortraits.map((portraitUrl) =>
-      console.log("PORTRAIT ==>", portraitUrl)
-    );
-  });
+    axios
+      .get("http://localhost:8000/api/characters")
+      .then((response) => {
+        console.log("✔ GET REQUEST SUCCESSFUL >>", response.data);
+        setCharacters(response.data.results);
+      })
+      .catch((error) => {
+        console.log("❌ ERROR IN GET REQUEST >>", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    setTeam({ point, mid, anchor });
+  }, [point, mid, anchor]);
 
   /**
    * Icon click event: Adds a character to an empty slot
-   * @param {Number} iconIndex
+   * @param {Event} e
+   * @param {Object} character
    */
-  const addToTeam = (e, iconIndex) => {
+  const addToTeam = (character) => {
     if (point === null) {
-      setPoint(RosterPortraits[iconIndex]);
+      setPoint(character);
     } else if (mid === null) {
-      setMid(RosterPortraits[iconIndex]);
+      setMid(character);
     } else {
-      setAnchor(RosterPortraits[iconIndex]);
+      setAnchor(character);
     }
-    e.target.style.filter = "grayscale(100%)";
-    e.target.disabled = true;
+
+    refs.current[character._id].disabled = true;
+    refs.current[character._id].style.filter = "grayscale(100%)";
   };
 
   /**
    * Portrait click event: Removes a character from a slot
-   * @param {String} portrait
+   * @param {Number} characterID
    */
-  const removeFromTeam = (portrait) => {
-    if (point === portrait) {
+  const removeFromTeam = (characterID) => {
+    if (point && point._id === characterID) {
       setPoint(null);
-    } else if (mid === portrait) {
+    } else if (mid && mid._id === characterID) {
       setMid(null);
     } else {
       setAnchor(null);
     }
+
+    refs.current[characterID].disabled = false;
+    refs.current[characterID].style.filter = "";
   };
 
   return (
     <fieldset className="p-3">
       <div className="container d-flex justify-content-center flex-wrap gap-2">
-        {RosterIcons.map((icon, idx) => {
+        {characters.map((character, idx) => {
           return (
             <input
-              key={idx}
+              key={character._id}
+              ref={(element) => (refs.current[character._id] = element)}
               type="image"
-              src={icon}
+              src={character.icon}
               className="rounded border shadow"
               style={{ maxWidth: "85px", maxHeight: "55px" }}
-              onClick={(e) => {
-                addToTeam(e, idx);
-              }}
+              onClick={(e) => addToTeam(character, idx)}
             ></input>
           );
         })}
       </div>
       <hr />
-      <Team
-        point={point}
-        mid={mid}
-        anchor={anchor}
-        removeFromTeam={removeFromTeam}
-      />
+      <Team team={team} removeFromTeam={removeFromTeam} />
     </fieldset>
   );
 };
