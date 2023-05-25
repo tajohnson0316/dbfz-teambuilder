@@ -8,6 +8,16 @@ const Roster = () => {
   const [mid, setMid] = useState(null);
   const [anchor, setAnchor] = useState(null);
 
+  useEffect(() => {
+    RosterIcons.map((iconUrl) => console.log("ICON ==>", iconUrl));
+  });
+
+  useEffect(() => {
+    RosterPortraits.map((portraitUrl) =>
+      console.log("PORTRAIT ==>", portraitUrl)
+    );
+  });
+
   /**
    * Icon click event: Adds a character to an empty slot
    * @param {Number} iconIndex

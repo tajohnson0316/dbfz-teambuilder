@@ -24,35 +24,38 @@ const combatStatsSchema = new mongoose.Schema({
   },
 });
 
-const characterSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [
-      true,
-      "No name provided. Provide a character name and try again.",
-    ],
+const characterSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [
+        true,
+        "No name provided. Provide a character name and try again.",
+      ],
+    },
+    icon: {
+      type: String,
+      required: [
+        true,
+        "No icon image URL provided. Provide an icon image URL and try again.",
+      ],
+    },
+    portrait: {
+      type: String,
+      required: [
+        true,
+        "No portrait image URL provided. Provide a portrait image URL and try again.",
+      ],
+    },
+    combatStats: {
+      type: combatStatsSchema,
+      required: [
+        true,
+        "No combat stats provided. Provide combat statistics for the character and try again.",
+      ],
+    },
   },
-  icon: {
-    type: String,
-    required: [
-      true,
-      "No icon image URL provided. Provide an icon image URL and try again.",
-    ],
-  },
-  portrait: {
-    type: String,
-    required: [
-      true,
-      "No portrait image URL provided. Provide a portrait image URL and try again.",
-    ],
-  },
-  combatStats: {
-    type: combatStatsSchema,
-    required: [
-      true,
-      "No combat stats provided. Provide combat statistics for the character and try again.",
-    ],
-  },
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Character", characterSchema);
