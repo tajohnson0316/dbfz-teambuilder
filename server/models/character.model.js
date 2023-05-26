@@ -24,6 +24,23 @@ const combatStatsSchema = new mongoose.Schema({
   },
 });
 
+const characterDescriptionSchema = new mongoose.Schema({
+  strengths: {
+    type: [String],
+    required: [
+      true,
+      "No core strengths provided. Provide a String array describing the character's strengths.",
+    ],
+  },
+  weaknesses: {
+    type: [String],
+    required: [
+      true,
+      "No notable weaknesses provided. Provide a String array describing the character's weaknesses.",
+    ],
+  },
+});
+
 const characterSchema = new mongoose.Schema(
   {
     name: {
@@ -52,6 +69,13 @@ const characterSchema = new mongoose.Schema(
       required: [
         true,
         "No combat stats provided. Provide combat statistics for the character and try again.",
+      ],
+    },
+    description: {
+      type: characterDescriptionSchema,
+      required: [
+        true,
+        "No character description provided. Provide a description of the character's core strengths and notable weaknesses and try again.",
       ],
     },
   },

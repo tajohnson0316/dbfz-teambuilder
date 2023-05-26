@@ -75,9 +75,10 @@ const Roster = () => {
               key={character._id}
               ref={(element) => (refs.current[character._id] = element)}
               type="image"
+              alt={character.name}
               src={character.icon}
               className="rounded border shadow"
-              style={{ maxWidth: "85px", maxHeight: "55px" }}
+              style={{ maxWidth: "95px", maxHeight: "65px" }}
               onClick={(e) => addToTeam(character, idx)}
             ></input>
           );

@@ -14,7 +14,7 @@ const TeamSlot = (props) => {
           <button
             type="button"
             className="btn p-0 rounded border shadow p-2 mb-1"
-            style={{ width: "300px", height: "400px" }}
+            style={{ width: "400px", height: "550px" }}
             onClick={(e) => removeFromTeam(character._id)}
           >
             <img
@@ -43,8 +43,25 @@ const TeamSlot = (props) => {
               )}
             </button>
           </div>
-          <Collapse in={collapsed} style={{ width: "300px" }}>
-            <div className="card card-body">- Coming Soon -</div>
+          <Collapse in={collapsed} style={{ width: "400px" }}>
+            <div className="card card-body text-start">
+              <div className="mb-3">
+                <span className="fw-bold">Core Strengths</span>
+                <ul>
+                  {character.description.strengths.map((strength) => (
+                    <li>{strength}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mb-3">
+                <span className="fw-bold">Notable Weaknesses</span>
+                <ul>
+                  {character.description.weaknesses.map((weakness) => (
+                    <li>{weakness}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </Collapse>
         </>
       ) : (
