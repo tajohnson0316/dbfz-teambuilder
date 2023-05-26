@@ -42,6 +42,9 @@ const Roster = () => {
     } else if (mid === null) {
       setMid(character);
     } else {
+      if (anchor !== null) {
+        removeFromTeam(anchor._id);
+      }
       setAnchor(character);
     }
 
